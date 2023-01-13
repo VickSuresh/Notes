@@ -25,6 +25,7 @@ export default function MyApp(props: MyAppProps) {
           queries: {
             refetchOnWindowFocus: false,
             retry: 2,
+            cacheTime: 0
           },
         },
       })

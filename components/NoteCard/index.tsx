@@ -6,6 +6,7 @@ import { INote } from "../../hooks/useNotes";
 import { updateNote, deleteNote } from "../../api/note";
 import { UseQueryResult } from "react-query";
 import ConfirmDialog from "../ConfirmDialog";
+import { AxiosError } from "axios";
 
 interface IProps {
   data?: INote,
@@ -21,12 +22,14 @@ export default function NoteCard(props: IProps) {
   const [contentFocus, setContentFocus] = useState<boolean>(false);
   const [edited, setEdited] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
+  const [saveError, setSaveError] = useState<string>("");
 
   //checks if content is past limit. 
   const isError = (): boolean => {
     return content.length >= 140;
   }
 
+  //calls api. If an error is returned, it sets error text
   const handleEdit = async (): Promise<void> => {
     try {
       await updateNote({
@@ -34,10 +37,13 @@ export default function NoteCard(props: IProps) {
         newTitle: title == props.data?.title ? null : title,
         newContent: content
       });
+      props.refetch();
     } catch (err) {
-      console.log(err);
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 409) setSaveError("Note title already exists");
+      }
+      else console.log(err);
     } finally {
-      await props.refetch();
       setEdited(false);
     }
   }
@@ -45,10 +51,11 @@ export default function NoteCard(props: IProps) {
   const handleDelete = async (): Promise<void> => {
     try {
       await deleteNote(props.data?.title);
+      props.refetch();
     } catch (err) {
       console.log(err);
     } finally {
-      await props.refetch();
+      setOpen(false);
     }
   }
 
@@ -58,11 +65,17 @@ export default function NoteCard(props: IProps) {
     else setEdited(true);
   }, [title, content])
 
+  //gets rid of error text after typing
+  useEffect(() => {
+    if (title) setSaveError("");
+  }, [title])
+
   return (
     <Card sx={{ maxWidth: 345, borderColor: theme.palette.secondary.main, backgroundColor: theme.palette.primary.dark, borderRadius: 6, boxShadow: 5 }} variant="outlined">
       <CardContent>
         <TextField
-          sx={{ input: { color: theme.palette.primary.light }, paddingBottom: "1rem" }}
+          error={saveError ? true : false}
+          sx={{ input: { color: theme.palette.primary.light, fontWeight: "bold" }, paddingBottom: "1rem" }}
           variant="standard"
           color="secondary"
           fullWidth
@@ -70,6 +83,7 @@ export default function NoteCard(props: IProps) {
           value={title}
           inputProps={{ maxLength: 140 }}
           onChange={(e) => setTitle(e?.target?.value || "")}
+          helperText={saveError || null}
         />
         <TextField
           error={isError()}

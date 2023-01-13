@@ -38,7 +38,12 @@ export default function Landing() {
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
             <StyledButton variant="contained" color="secondary">
-              Get started
+              <Link
+                href="/notes"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                Get started
+              </Link>
             </StyledButton>
             <StyledButton variant="outlined" color="secondary">
               <Link

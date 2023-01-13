@@ -7,11 +7,7 @@ interface IProps {
   handleConfirm: () => void
 }
 
-interface IState {
-
-}
-
-export default class ConfirmDialog extends React.Component<IProps, IState> {
+export default class ConfirmDialog extends React.Component<IProps> {
   render() {
     return (
       <Dialog open={this.props.open} onClose={this.props.handleClose}>
