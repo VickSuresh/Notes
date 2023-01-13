@@ -1,4 +1,4 @@
-import NoteContainer from "../containers/Landing/NoteContainer";
+import NoteContainer from "../containers/NoteContainer";
 
 export default function Notes() {
 

@@ -1,7 +1,7 @@
 import { Box, Grid, Theme, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useNotes } from "../../../hooks/useNotes";
-import NoteCard from "../../../components/NoteCard";
+import { useNotes } from "../../hooks/useNotes";
+import NoteCard from "../../components/NoteCard";
 
 export default function NoteContainer() {
 

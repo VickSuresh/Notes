@@ -31,7 +31,7 @@ export default function NoteCard(props: IProps) {
     try {
       await updateNote({
         title: props.data?.title,
-        newTitle: title,
+        newTitle: title == props.data?.title ? null : title,
         newContent: content
       });
     } catch (err) {
