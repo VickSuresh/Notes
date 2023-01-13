@@ -1,4 +1,9 @@
 import { useQuery, UseQueryResult } from "react-query";
 import { fetchNotes } from "../api/note";
 
-export const useNotes = (): UseQueryResult => useQuery('allNotes', fetchNotes); 
+export interface INote {
+    title: string,
+    content: string
+}
+
+export const useNotes = (): UseQueryResult<INote[]> => useQuery('allNotes', fetchNotes); 

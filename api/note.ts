@@ -17,8 +17,8 @@ export const updateNote = async (body: any): Promise<AxiosResponse> => {
     return data;
 }
 
-export const deleteNote = async (): Promise<AxiosResponse> => {
-    const { data } = await axios.delete('/notes/deleteNote');
+export const deleteNote = async (title: string | undefined): Promise<AxiosResponse> => {
+    const { data } = await axios.delete(`/notes/deleteNote/${title}`);
     return data;
 }
 
