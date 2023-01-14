@@ -7,7 +7,6 @@ import CreateNote from "../../components/CreateNote";
 
 export default function NoteContainer() {
 
-  //const { isLoading, isError, data, refetch } = useNotes();
   const theme: Theme = useTheme();
   const { isLoading, isRefetching, isError, data, refetch } = useNotes();
 
